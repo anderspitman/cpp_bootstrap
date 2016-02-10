@@ -23,15 +23,19 @@ TEST_FILES := $(filter-out $(TEST_DIR)/tester.cc, $(TEST_FILES))
 INC_DIR := include
 HEADERS := $(INC_DIR)/*.h
 
-.PHONY: clean test
+.PHONY: run clean test
 
-# Create the program binary (executable) file
-program: $(SRC_FILES) $(HEADERS)
-	$(CC) -o program $(SRC_DIR)/main.cc $(SRC_FILES) -I $(INC_DIR) $(CFLAGS)
+# Run the program
+run: program
+	./program
 
 # Run the tests
 test: $(TEST_DIR)/tester
 	$(TEST_DIR)/tester
+
+# Create the program binary (executable) file
+program: $(SRC_FILES) $(HEADERS)
+	$(CC) -o program $(SRC_DIR)/main.cc $(SRC_FILES) -I $(INC_DIR) $(CFLAGS)
 
 # Build the test runner
 $(TEST_DIR)/tester: $(TEST_DIR)/tester.o $(TEST_FILES) $(SRC_FILES) $(HEADERS)
